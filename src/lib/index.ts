@@ -5,20 +5,14 @@ export function useStateMachine<T extends Record<string, string> = any>({
 	states,
 	initialState,
 }: StateMachine<T>) {
+	if (!states.hasOwnProperty(initialState)) {
+		throw new Error(`${initialState} is not a valid initial state.`)
+	}
+
 	return Vue.extend({
 		data: () => ({
-			currentStateName: initialState,
+			currentState: states[initialState],
 		}),
-
-		computed: {
-			currentState() {
-				const state = states[this.currentStateName]
-				if (!state) {
-					throw new Error(`${this.currentStateName} is an invalid state name.`)
-				}
-				return state
-			},
-		},
 
 		methods: {
 			async runAction(): Promise<void> {
@@ -26,9 +20,14 @@ export function useStateMachine<T extends Record<string, string> = any>({
 				const { event } = result instanceof Promise ? await result : result
 				const nextStateName = this.currentState.transitions[event]
 				if (!nextStateName) {
-					throw new Error(`${event} is an invalid event.`)
+					throw new Error(`${event} is not a valid event.`)
 				}
-				this.currentStateName = nextStateName
+
+				const nextState = states[nextStateName]
+				if (!nextState) {
+					throw new Error(`${nextState} is not a valid next state.`)
+				}
+				this.currentState = nextState
 			},
 		},
 
