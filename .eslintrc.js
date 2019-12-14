@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	env: {
-		node: true
+		node: true,
 	},
 	extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
 	rules: {
@@ -15,13 +15,13 @@ module.exports = {
 			'error',
 			{
 				multiline: {
-					delimiter: 'none'
+					delimiter: 'none',
 				},
 				singleline: {
 					delimiter: 'comma',
-					requireLast: true
-				}
-			}
+					requireLast: true,
+				},
+			},
 		],
 		'prettier/prettier': [
 			'error',
@@ -29,22 +29,23 @@ module.exports = {
 				printWidth: 80,
 				semi: false,
 				singleQuote: true,
-				useTabs: true
-			}
-		]
+				trailingComma: 'all',
+				useTabs: true,
+			},
+		],
 	},
 	parserOptions: {
-		parser: '@typescript-eslint/parser'
+		parser: '@typescript-eslint/parser',
 	},
 	overrides: [
 		{
 			files: [
 				'**/__tests__/*.{j,t}s?(x)',
-				'**/tests/unit/**/*.spec.{j,t}s?(x)'
+				'**/tests/unit/**/*.spec.{j,t}s?(x)',
 			],
 			env: {
-				jest: true
-			}
-		}
-	]
+				jest: true,
+			},
+		},
+	],
 }
