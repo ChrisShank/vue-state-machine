@@ -12,7 +12,8 @@ export type StateMachine<T extends Record<string, string> = any> = {
 export type State<T extends Key = string, N = string> = {
 	component: Component
 	transitions: Record<T, N>
-	action: () => Promise<Transition<T>>
+	action: () => Transition<T> | Promise<Transition<T>>
+	immediate?: boolean
 }
 
 export type Transition<E extends Key = string> = {

@@ -4,8 +4,8 @@ import { useStateMachine } from '@/lib'
 import { VNode } from 'vue'
 
 export type StateTransitions = {
-	on: 'submit'
-	off: 'error' | 'end'
+	on: 'switch'
+	off: 'switch'
 }
 
 const stateMachine: StateMachine<StateTransitions> = {
@@ -18,9 +18,9 @@ const stateMachine: StateMachine<StateTransitions> = {
 				},
 			},
 			transitions: {
-				submit: 'on',
+				switch: 'off',
 			},
-			action: async () => ({ event: 'submit' }),
+			action: () => ({ event: 'switch' }),
 		},
 		off: {
 			component: {
@@ -29,10 +29,9 @@ const stateMachine: StateMachine<StateTransitions> = {
 				},
 			},
 			transitions: {
-				error: 'on',
-				end: 'off',
+				switch: 'on',
 			},
-			action: async () => ({ event: 'end' }),
+			action: () => ({ event: 'switch' }),
 		},
 	},
 }
@@ -47,7 +46,7 @@ describe('On/Off States', () => {
 	it('should render the correct state after a transition', () => {
 		const component = useStateMachine(stateMachine)
 		const wrapper = mount(component)
-		wrapper.trigger
+		wrapper.vm.$children[0].$emit('transition')
 		expect(wrapper.text()).toContain('on')
 	})
 })
