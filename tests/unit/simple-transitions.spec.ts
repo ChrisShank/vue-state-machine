@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { StateMachine } from '@/lib/types'
 import { useStateMachine } from '@/lib'
-import { VNode } from 'vue'
 
 export type StateTransitions = {
 	on: 'switch'
@@ -13,7 +12,7 @@ const stateMachine: StateMachine<StateTransitions> = {
 	states: {
 		on: {
 			component: {
-				render(h): VNode {
+				render(h) {
 					return h('div', 'on')
 				},
 			},
@@ -24,7 +23,7 @@ const stateMachine: StateMachine<StateTransitions> = {
 		},
 		off: {
 			component: {
-				render(h): VNode {
+				render(h) {
 					return h('div', 'off')
 				},
 			},
@@ -37,16 +36,15 @@ const stateMachine: StateMachine<StateTransitions> = {
 }
 
 describe('On/Off States', () => {
-	it('should render the initial state', () => {
+	it('should render the correct state after transitions', () => {
 		const component = useStateMachine(stateMachine)
 		const wrapper = mount(component)
 		expect(wrapper.text()).toContain('off')
-	})
 
-	it('should render the correct state after a transition', () => {
-		const component = useStateMachine(stateMachine)
-		const wrapper = mount(component)
-		wrapper.vm.$children[0].$emit('transition')
+		wrapper.vm.runAction()
 		expect(wrapper.text()).toContain('on')
+
+		wrapper.vm.runAction()
+		expect(wrapper.text()).toContain('off')
 	})
 })

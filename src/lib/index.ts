@@ -5,7 +5,11 @@ export function useStateMachine<T extends Record<string, string> = any>({
 	states,
 	initialState,
 }: StateMachine<T>) {
-	if (!states.hasOwnProperty(initialState)) {
+	if (!states || Object.keys(states).length === 0) {
+		throw new Error('Invalid state machine: No states were given.')
+	}
+
+	if (!initialState || !states.hasOwnProperty(initialState)) {
 		throw new Error(`${initialState} is not a valid initial state.`)
 	}
 
