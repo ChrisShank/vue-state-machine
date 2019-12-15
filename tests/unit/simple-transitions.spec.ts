@@ -41,10 +41,10 @@ describe('On/Off States', () => {
 		const wrapper = mount(component)
 		expect(wrapper.text()).toContain('off')
 
-		wrapper.vm.runAction()
+		wrapper.vm.executeAction()
 		expect(wrapper.text()).toContain('on')
 
-		wrapper.vm.runAction()
+		wrapper.vm.executeAction()
 		expect(wrapper.text()).toContain('off')
 	})
 })

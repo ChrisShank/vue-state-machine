@@ -20,7 +20,7 @@ describe('Invalid Transitions', () => {
 		})
 
 		const wrapper = mount(component)
-		wrapper.vm.runAction()
+		wrapper.vm.executeAction()
 
 		// TODO: test that running this action will throw an error
 	})
